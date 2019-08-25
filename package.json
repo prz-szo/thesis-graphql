@@ -1,0 +1,26 @@
+{
+  "name": "thesis-graphql",
+  "version": "0.1.0",
+  "description": "The Web API using Graph QL and Neo4j database, created in terms of my undergraduate dissertation.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo 'No tests'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prz-szo/thesis-graphql.git"
+  },
+  "keywords": [
+    "GraphQL",
+    "Neo4j"
+  ],
+  "author": "prz-szo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prz-szo/thesis-graphql/issues"
+  },
+  "homepage": "https://github.com/prz-szo/thesis-graphql#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
