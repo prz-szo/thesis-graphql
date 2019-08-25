@@ -4,7 +4,8 @@
   "description": "The Web API using Graph QL and Neo4j database, created in terms of my undergraduate dissertation.",
   "main": "app.js",
   "scripts": {
-    "test": "echo 'No tests'"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/nodemon --exec babel-node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,13 @@
   },
   "homepage": "https://github.com/prz-szo/thesis-graphql#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "apollo-server": "^2.9.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "dotenv": "^8.1.0",
+    "graphql-tag": "^2.10.1",
+    "neo4j-driver": "^1.7.5",
+    "neo4j-graphql-js": "^2.7.1",
+    "nodemon": "^1.19.1"
   }
 }
