@@ -22,7 +22,7 @@ const driver = neo4j.driver(
 
 const server = new ApolloServer({
   context: { driver },
-  schema: schema
+  schema
 });
 
 server

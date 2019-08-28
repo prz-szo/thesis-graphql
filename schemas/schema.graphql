@@ -1,43 +1,89 @@
-type User {
-    id: ID!
-    name: String
-    friends: [User] @relation(name: "FRIENDS", direction: "BOTH")
-    reviews: [Review] @relation(name: "WROTE", direction: "OUT")
-    avgStars: Float
-    @cypher(
-        statement: "MATCH (this)-[:WROTE]->(r:Review) RETURN toFloat(avg(r.stars))"
-    )
-    numReviews: Int
-    @cypher(statement: "MATCH (this)-[:WROTE]->(r:Review) RETURN COUNT(r)")
+type Customer {
+    customerID: ID!
+    contactName: String!
+    contactTitle: String
+    companyName: String
+    fax: String
+    phone: String
 }
 
-type Business {
-    id: ID!
-    name: String
+type Address {
+    addressID: ID!
+    region: String
+    country: String!
+    city: String!
+    postalCode: String!
     address: String
-    city: String
-    state: String
-    reviews: [Review] @relation(name: "REVIEWS", direction: "IN")
-    categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
 }
 
-type Review {
-    id: ID!
-    stars: Int
-    text: String
-    date: Date
-    business: Business @relation(name: "REVIEWS", direction: "OUT")
-    user: User @relation(name: "WROTE", direction: "IN")
+type Employee {
+    employeeID: ID!
+    firstName: String!
+    lastName: String!
+    birthDate: String
+    hireDate: String
+    title: String!
+    titleOfCourtesy: String
+    manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
+    notes: String
+    photoPath: String
 }
 
 type Category {
-    name: ID!
-    businesses: [Business] @relation(name: "IN_CATEGORY", direction: "IN")
+    categoryID: ID!
+    categoryName: String!
+    description: String!
+    picture: String
 }
 
-type Query {
-    usersBySubstring(substring: String): [User]
-    @cypher(
-        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
-    )
+type Order {
+    orderID: ID!
+    shipCity: String
+    freight: Float
+
 }
+
+{
+"requiredDate": "1996-08-01 00:00:00.000",
+"employeeID": "5",
+"shipName": "Vins et alcools Chevalier",
+"shipPostalCode": "51100",
+"shipCountry": "France",
+"shipAddress": "59 rue de l'Abbaye",
+"shipVia": "3",
+"customerID": "VINET",
+"shippedDate": "1996-07-16 00:00:00.000",
+"orderDate": "1996-07-04 00:00:00.000",
+"shipRegion": "NULL"
+}
+
+#type Business {
+#    id: ID!
+#    name: String
+#    address: String
+#    city: String
+#    state: String
+#    reviews: [Review] @relation(name: "REVIEWS", direction: "IN")
+#    categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
+#}
+#
+#type Review {
+#    id: ID!
+#    stars: Int
+#    text: String
+#    date: Date
+#    business: Business @relation(name: "REVIEWS", direction: "OUT")
+#    user: User @relation(name: "WROTE", direction: "IN")
+#}
+#
+#type Category {
+#    name: ID!
+#    businesses: [Business] @relation(name: "IN_CATEGORY", direction: "IN")
+#}
+#
+#type Query {
+#    usersBySubstring(substring: String): [User]
+#    @cypher(
+#        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
+#    )
+#}
