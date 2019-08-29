@@ -9,16 +9,25 @@ import { typeDefs } from './graphql-schema';
 
 
 dotenv.config();
+const {
+  NEO4J_URI,
+  NEO4J_USER,
+  NEO4J_PASSWORD,
+  GRAPHQL_LISTEN_PORT,
+  GRAPHQL_LISTEN_PATH,
+  API_HOST
+} = process.env;
+
 
 const schema = makeAugmentedSchema({
   typeDefs
 });
 
 const driver = neo4j.driver(
-  process.env.NEO4J_URI || "bolt://localhost:7687",
+  NEO4J_URI || "bolt://localhost:7687",
   neo4j.auth.basic(
-    process.env.NEO4J_USER || "neo4j",
-    process.env.NEO4J_PASSWORD || "neo4j"
+    NEO4J_USER || "neo4j",
+    NEO4J_PASSWORD || "neo4j"
   )
 );
 
@@ -31,18 +40,9 @@ const server = new ApolloServer({
 
 server.applyMiddleware({
   app,
-  path: '/neo4j-graphql'
-}); // app is from an existing express app
+  path: GRAPHQL_LISTEN_PATH
+});
 
-app.listen( { port: process.env.GRAPHQL_LISTEN_PORT }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+app.listen( { port: GRAPHQL_LISTEN_PORT, host: API_HOST }, () =>
+  console.log(`🚀 Server ready at http://${API_HOST}:${GRAPHQL_LISTEN_PORT}${server.graphqlPath}`)
 );
-
-// server
-//   .listen({
-//     port: process.env.GRAPHQL_LISTEN_PORT,
-//     host: process.env.API_HOST
-//   })
-//   .then(({ url }) => {
-//   console.log(`GraphQL API ready at ${url}`);
-// });
