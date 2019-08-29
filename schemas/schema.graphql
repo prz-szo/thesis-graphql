@@ -11,7 +11,7 @@ type Address {
     addressID: ID!
     region: String
     country: String!
-    city: String!
+    city: String
     postalCode: String!
     address: String
 }
@@ -40,23 +40,14 @@ type Order {
     orderID: ID!
     shipCity: String
     freight: Float
-
+    employee: Employee @relation(name: "SOLD", direction: "IN")
+    owner: Customer @relation(name: "PURCHASED", direction: "IN")
+    shipName: String
+    shippedDate: String
+    orderDate: String
+    requiredDate: String
+    address: Address
 }
-
-{
-"requiredDate": "1996-08-01 00:00:00.000",
-"employeeID": "5",
-"shipName": "Vins et alcools Chevalier",
-"shipPostalCode": "51100",
-"shipCountry": "France",
-"shipAddress": "59 rue de l'Abbaye",
-"shipVia": "3",
-"customerID": "VINET",
-"shippedDate": "1996-07-16 00:00:00.000",
-"orderDate": "1996-07-04 00:00:00.000",
-"shipRegion": "NULL"
-}
-
 #type Business {
 #    id: ID!
 #    name: String
