@@ -1,0 +1,84 @@
+#type Customer {
+#    customerID: ID!
+#    contactName: String!
+#    contactTitle: String
+#    companyName: String
+#    fax: String
+#    phone: String
+#}
+#
+#type Address {
+#    addressID: ID!
+#    region: String
+#    country: String!
+#    city: String
+#    postalCode: String!
+#    address: String
+#}
+
+type Query {
+    dummy: String
+}
+
+type Employee {
+    employeeID: ID!
+    firstName: String!
+    lastName: String!
+    birthDate: String
+    hireDate: String
+    title: String!
+    titleOfCourtesy: String
+    manager: Employee
+    notes: String
+    photoPath: String
+}
+
+#type Category {
+#    categoryID: ID!
+#    categoryName: String!
+#    description: String!
+#    picture: String
+#}
+#
+#type Order {
+#    orderID: ID!
+#    shipCity: String
+#    freight: Float
+#    employee: Employee
+#    owner: Customer
+#    shipName: String
+#    shippedDate: String
+#    orderDate: String
+#    requiredDate: String
+#    address: Address
+#}
+#type Business {
+#    id: ID!
+#    name: String
+#    address: String
+#    city: String
+#    state: String
+#    reviews: [Review] @relation(name: "REVIEWS", direction: "IN")
+#    categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
+#}
+#
+#type Review {
+#    id: ID!
+#    stars: Int
+#    text: String
+#    date: Date
+#    business: Business @relation(name: "REVIEWS", direction: "OUT")
+#    user: User @relation(name: "WROTE", direction: "IN")
+#}
+#
+#type Category {
+#    name: ID!
+#    businesses: [Business] @relation(name: "IN_CATEGORY", direction: "IN")
+#}
+#
+#type Query {
+#    usersBySubstring(substring: String): [User]
+#    @cypher(
+#        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
+#    )
+#}
