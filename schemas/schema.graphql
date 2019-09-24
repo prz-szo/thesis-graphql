@@ -5,14 +5,14 @@ type Customer {
     companyName: String
     fax: String
     phone: String
+    address(filter: String): Address @relation(name: "LIVES_IN", direction: "OUT")
 }
 
 type Address {
-    addressID: ID!
     region: String
     country: String!
     city: String
-    postalCode: String!
+    postalCode: String
     address: String
 }
 
@@ -46,8 +46,9 @@ type Order {
     shippedDate: String
     orderDate: String
     requiredDate: String
-    address: Address
+    address: Address @relation(name: "SHIPPED_TO", direction: "OUT")
 }
+
 #type Business {
 #    id: ID!
 #    name: String
@@ -57,7 +58,7 @@ type Order {
 #    reviews: [Review] @relation(name: "REVIEWS", direction: "IN")
 #    categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
 #}
-#
+
 #type Review {
 #    id: ID!
 #    stars: Int

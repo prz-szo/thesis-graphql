@@ -1,9 +1,8 @@
-import { default as Employee } from './Employee';
+import { default as EmployeeResolver } from './Employee';
+
 
 export default {
   Query: {
-    employee: (root, { userId }, ctx) => ({
-      ...Employee
-    }),
+    ...EmployeeResolver
   }
 };

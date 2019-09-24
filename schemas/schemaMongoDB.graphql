@@ -17,8 +17,8 @@
 #}
 
 type Query {
-    dummy: String
-    employee: Employee
+    employee(employeeID: String): Employee,
+    employees: [Employee]
 }
 
 type Employee {
@@ -29,6 +29,12 @@ type Employee {
     hireDate: String
     title: String!
     titleOfCourtesy: String
+    address: String
+    city: String
+    region: String
+    postalCode: String
+    country: String
+    homePhone: String
     manager: Employee
     notes: String
     photoPath: String
