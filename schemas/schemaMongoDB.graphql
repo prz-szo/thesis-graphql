@@ -15,18 +15,19 @@
 #    postalCode: String!
 #    address: String
 #}
+scalar Date
 
 type Query {
-    employee(employeeID: String): Employee,
-    employees: [Employee]
+    Employee(employeeID: ID): Employee,
+    Employees: [Employee]
 }
 
 type Employee {
     employeeID: ID!
     firstName: String!
     lastName: String!
-    birthDate: String
-    hireDate: String
+    birthDate: Date
+    hireDate: Date
     title: String!
     titleOfCourtesy: String
     address: String

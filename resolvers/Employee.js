@@ -2,47 +2,19 @@ import { Employee } from '../models';
 
 
 export default {
-  employee: async (root, { employeeID }) => {
-    const employee = await Employee.findOne({ _id: employeeID }).select('-_header -Photo').exec();
-    return employee && ({
-      employeeID: employee._id,
-      firstName: employee.FirstName,
-      lastName: employee.LastName,
-      birthDate: employee.BirthDate,
-      hireDate: employee.HireDate,
-      title: employee.Title,
-      titleOfCourtesy: employee.TitleOfCourtesy,
-      address: employee.Address,
-      city: employee.City,
-      region: employee.Region,
-      postalCode: employee.PostalCode,
-      country: employee.Country,
-      homePhone: employee.HomePhone,
-      manager: employee.ReportsTo,
-      notes: employee.Notes,
-      photoPath: employee.PhotoPath,
+  Employee: async (root, { employeeID }) => {
+    const { _id, ...restOfParameters } = await Employee.findOne({ _id: employeeID }).select('-photo').lean().exec();
+    return _id && ({
+      employeeID: _id,
+      ...restOfParameters
     });
   },
-  employees: async () => {
-    const employees = await Employee.find().select('-_header -Photo').exec();
+  Employees: async () => {
+    const employees = await Employee.find().select('-photo').lean().exec();
 
-    return employees.map(employee => ({
-      employeeID: employee._id,
-      firstName: employee.FirstName,
-      lastName: employee.LastName,
-      birthDate: employee.BirthDate,
-      hireDate: employee.HireDate,
-      title: employee.Title,
-      titleOfCourtesy: employee.TitleOfCourtesy,
-      address: employee.Address,
-      city: employee.City,
-      region: employee.Region,
-      postalCode: employee.PostalCode,
-      country: employee.Country,
-      homePhone: employee.HomePhone,
-      manager: employee.ReportsTo,
-      notes: employee.Notes,
-      photoPath: employee.PhotoPath,
+    return employees.map(({ _id, ...restOfProperties }) => ({
+      employeeID: _id,
+      ...restOfProperties
     }));
   }
 };

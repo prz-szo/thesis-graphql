@@ -43,7 +43,7 @@ type Order {
     employee: Employee @relation(name: "SOLD", direction: "IN")
     owner: Customer @relation(name: "PURCHASED", direction: "IN")
     shipName: String
-    shippedDate: String
+    shippedDate: Date
     orderDate: String
     requiredDate: String
     address: Address @relation(name: "SHIPPED_TO", direction: "OUT")
