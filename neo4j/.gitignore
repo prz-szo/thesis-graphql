@@ -33,7 +33,7 @@ bower_components
 build/Release
 
 # Dependency directories
-./**/node_modules/
+node_modules/
 jspm_packages/
 .idea/
 
@@ -56,7 +56,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-mongoDB/.env
+.env
 
 # next.js build output
 .next

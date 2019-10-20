@@ -1,0 +1,86 @@
+type Employee {
+    employeeID: ID!
+    firstName: String!
+    lastName: String!
+    birthDate: String
+    hireDate: String
+    title: String!
+    titleOfCourtesy: String
+    manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
+    notes: String
+    photoPath: String
+    homePhone: String
+    address: Address @relation(name: "LIVES_IN", direction: "OUT")
+}
+
+type Customer {
+    customerID: ID!
+    contactName: String!
+    contactTitle: String
+    companyName: String
+    fax: String
+    phone: String
+    address: Address @relation(name: "LIVES_IN", direction: "OUT")
+    orders: [Order] @relation(name: "PURCHASED", direction: "OUT")
+}
+
+type Order {
+    orderID: ID!
+    shipCity: String
+    freight: Float
+    employee: Employee @relation(name: "SOLD", direction: "IN")
+    owner: Customer @relation(name: "PURCHASED", direction: "IN")
+    elements: [Product] @relation(name: "CONTAINS", direction: "IN")
+    shipName: String
+    shippedDate: String
+    orderDate: String
+    requiredDate: String
+    address: Address @relation(name: "SHIPPED_TO", direction: "OUT")
+}
+
+type Supplier {
+    supplierID: ID!
+    contactTitle: String!
+    contactName: String!
+    companyName: String!
+    homePage: String
+    address: Address @relation(name: "BASED_IN", direction: "OUT")
+    fax: String
+    phone: String
+}
+
+type Address {
+    region: String
+    country: String!
+    city: String
+    postalCode: String
+    address: String
+}
+
+type Category {
+    categoryID: ID!
+    categoryName: String!
+    description: String!
+    picture: String
+    products: [Product] @relation(name: "PART_OF", direction: "IN")
+}
+
+type Product {
+    productName: String!
+    productID: ID!
+    unitsInStock: Int!
+    unitPrice: Float!
+    unitsOnOrder: Int!
+    quantityPerUnit: String
+    supplier: Supplier @relation(name: "SUPPLIES", direction: "IN")
+    category: Category @relation(name: "PART_OF", direction: "OUT")
+    discontinued: Boolean
+}
+
+# An example of query inside the GraphQL schema
+#type Query {
+#    usersBySubstring(substring: String): [User]
+#    @cypher(
+#        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
+#    )
+#}

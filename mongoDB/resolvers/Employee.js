@@ -1,4 +1,4 @@
-import { Employee } from '../models';
+import { Employee } from 'mongoDB/models';
 
 
 export default {
