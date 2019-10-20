@@ -1,4 +1,4 @@
-import { default as EmployeeResolver } from 'mongoDB/resolvers/Employee';
+import { default as EmployeeResolver } from './Employee';
 
 
 export default {

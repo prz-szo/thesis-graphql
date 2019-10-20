@@ -3,13 +3,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { ApolloServer } from 'apollo-server-express';
-import mongoDBConnection from 'mongoDB/db';
+import mongoDBConnection from './db';
 
 import dotenv from 'dotenv';
 
-import { typeDefs as typeDefsMongoDB } from 'mongoDB/mongoDBSchema';
+import { typeDefs as typeDefsMongoDB } from './mongoDBSchema';
 
-import resolvers from 'mongoDB/resolvers';
+import resolvers from './resolvers';
 
 dotenv.config();
 const {
