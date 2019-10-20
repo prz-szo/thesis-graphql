@@ -23,13 +23,15 @@ type Customer {
     orders: [Order] @relation(name: "PURCHASED", direction: "OUT")
 }
 
+
+# TODO: Jak wyciągnąc shipName i shipDate z properties relacji?
+# TODO: Jak wyciągnąc unitPrice i quantity z relacji?
 type Order {
     orderID: ID!
-    shipCity: String
     freight: Float
     employee: Employee @relation(name: "SOLD", direction: "IN")
     owner: Customer @relation(name: "PURCHASED", direction: "IN")
-    elements: [Product] @relation(name: "CONTAINS", direction: "IN")
+    elements: [Product] @relation(name: "CONTAINS", direction: "OUT")
     shipName: String
     shippedDate: String
     orderDate: String
@@ -68,11 +70,9 @@ type Product {
     productID: ID!
     unitsInStock: Int!
     unitPrice: Float!
-    unitsOnOrder: Int!
     quantityPerUnit: String
     supplier: Supplier @relation(name: "SUPPLIES", direction: "IN")
     category: Category @relation(name: "PART_OF", direction: "OUT")
-    discontinued: Boolean
 }
 
 # An example of query inside the GraphQL schema

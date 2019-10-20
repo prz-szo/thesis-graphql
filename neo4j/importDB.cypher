@@ -1,7 +1,7 @@
 // tag::nodes[]
 // Create customers, their addresses and relationship between them
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///customers.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///customers.csv' AS row
 CREATE
   (customer:Customer {
     customerID: row.customerID,
@@ -23,9 +23,11 @@ CREATE
 CREATE INDEX ON :Customer(customerID);
 CREATE INDEX ON :Customer(customerName);
 
+
+
 // Create suppliers
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///suppliers.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///suppliers.csv' AS row
 CREATE
   (supplier:Supplier {
     companyName: row.companyName,
@@ -47,9 +49,11 @@ CREATE
 ;
 CREATE INDEX ON :Supplier(supplierID);
 
+
+
 // Create categories
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///categories.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///categories.csv' AS row
 CREATE (:Category {
   categoryID: row.categoryID,
   categoryName: row.categoryName,
@@ -57,9 +61,11 @@ CREATE (:Category {
 });
 CREATE INDEX ON :Category(categoryID);
 
+
+
 // Create products
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///products.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///products.csv' AS row
 CREATE (:Product {
   productName: row.productName,
   productID: row.productID,
@@ -70,17 +76,18 @@ CREATE (:Product {
 CREATE INDEX ON :Product(productID);
 CREATE INDEX ON :Product(productName);
 // Set relationship SUPPLIES and PART_OF
-// supplierID,categoryID
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///products.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///products.csv' AS row
 MATCH (product:Product {productID: row.productID})
 MATCH (supplier:Supplier {supplierID: row.supplierID})
 MATCH (category:Category {categoryID: row.categoryID})
 MERGE (supplier)-[:SUPPLIES]->(product)-[:PART_OF]->(category);
 
+
+
 // Create employees
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///employees.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///employees.csv' AS row
 CREATE
   (employee:Employee {
     employeeID: row.employeeID,
@@ -91,7 +98,7 @@ CREATE
     birthDate: row.birthDate,
     hireDate: row.hireDate,
     homePhone: row.homePhone,
-    notes: row.notes,
+    notes: row.notes
   }),
   (itsAddress:Address {
     address: row.address,
@@ -103,67 +110,56 @@ CREATE
   (employee)-[:LIVES_IN]->(itsAddress)
 ;
 CREATE INDEX ON :Employee(employeeID);
-
 // create relationship REPORTS_TO
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:///employees.csv" AS row
+LOAD CSV WITH HEADERS FROM 'file:///employees.csv' AS row
 MATCH (employee:Employee {employeeID: row.employeeID})
 MATCH (manager:Employee {employeeID: row.reportsTo})
 MERGE (employee)-[:REPORTS_TO]->(manager);
 
 
+
+// Creating orders
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:orders.csv" AS row
-MERGE (order:Order {
-  orderID: row.OrderID
-}) ON CREATE SET order.shipName =  row.ShipName;
+LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row
+CREATE
+  (order:Order {
+  orderID: row.orderID,
+  orderDate: row.orderDate,
+  requiredDate: row.requiredDate,
+  freight: row.freight,
+  shipName: row.shipName
+  }),
+  (itsAddress:Address {
+    address: row.shipAddress,
+    city: row.shipCity,
+    region: row.shipRegion,
+    postalCode: row.shipPostalCode,
+    country: row.shipCountry
+  }),
+  (order)-[:SHIPPED_TO {
+    shippedDate: row.shippedDate,
+    shipName: row.shipName
+  }]->(itsAddress)
+;
 CREATE CONSTRAINT ON (o:Order) ASSERT o.orderID IS UNIQUE;
 
-
-
-schema await
-
-// tag::rels_orders[]
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:orders.csv" AS row
-MATCH (order:Order {orderID: row.OrderID})
-MATCH (product:Product {productID: row.ProductID})
-MERGE (order)-[pu:PRODUCT]->(product)
-  ON CREATE SET pu.unitPrice = toFloat(row.UnitPrice), pu.quantity = toFloat(row.Quantity);
+LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row
+MATCH (order:Order {orderID: row.orderID})
+MATCH (customer:Customer {customerID: row.customerID})
+MERGE (customer)-[:PURCHASED]->(order);
 
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:orders.csv" AS row
-MATCH (order:Order {orderID: row.OrderID})
-MATCH (employee:Employee {employeeID: row.EmployeeID})
+LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row
+MATCH (order:Order {orderID: row.orderID})
+MATCH (employee:Employee {employeeID: row.employeeID})
 MERGE (employee)-[:SOLD]->(order);
 
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:orders.csv" AS row
-MATCH (order:Order {orderID: row.OrderID})
-MATCH (customer:Customer {customerID: row.CustomerID})
-MERGE (customer)-[:PURCHASED]->(order);
-// end::rels_orders[]
-
-// tag::rels_products[]
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:products.csv" AS row
-MATCH (product:Product {productID: row.ProductID})
-MATCH (supplier:Supplier {supplierID: row.SupplierID})
-MERGE (supplier)-[:SUPPLIES]->(product);
 
 USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:products.csv" AS row
-MATCH (product:Product {productID: row.ProductID})
-MATCH (category:Category {categoryID: row.CategoryID})
-MERGE (product)-[:PART_OF]->(category);
-// end::rels_products[]
-
-// tag::rels_employees[]
-USING PERIODIC COMMIT
-LOAD CSV WITH HEADERS FROM "file:employees.csv" AS row
-MATCH (employee:Employee {employeeID: row.EmployeeID})
-MATCH (manager:Employee {employeeID: row.ReportsTo})
-MERGE (employee)-[:REPORTS_TO]->(manager);
-// end::rels_employees[]
-
-
+LOAD CSV WITH HEADERS FROM 'file:///order-details.csv' AS row
+MATCH (order:Order {orderID: row.orderID})
+MATCH (product:Product {productID: row.productID})
+MERGE (order)-[pu:CONTAINS]->(product)
+  ON CREATE SET pu.quantity = toFloat(row.quantity);
