@@ -8,7 +8,6 @@ type Employee {
     titleOfCourtesy: String
     manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
     notes: String
-    photoPath: String
     homePhone: String
     address: Address @relation(name: "LIVES_IN", direction: "OUT")
 }
@@ -39,14 +38,14 @@ type Order {
 }
 
 type Supplier {
-    supplierID: ID!
-    contactTitle: String!
-    contactName: String!
     companyName: String!
-    homePage: String
+    supplierID: ID!
+    contactName: String!
+    contactTitle: String!
     address: Address @relation(name: "BASED_IN", direction: "OUT")
     fax: String
     phone: String
+    homePage: String
 }
 
 type Address {
@@ -61,7 +60,6 @@ type Category {
     categoryID: ID!
     categoryName: String!
     description: String!
-    picture: String
     products: [Product] @relation(name: "PART_OF", direction: "IN")
 }
 
