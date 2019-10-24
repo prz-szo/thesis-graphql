@@ -120,6 +120,7 @@ MERGE (employee)-[:REPORTS_TO]->(manager);
 
 
 // Creating orders
+// TODO: Tutaj jest bład bo przecież zamówienie jest dostarczone do customera, powielają się nody...
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row
 CREATE
@@ -127,7 +128,7 @@ CREATE
   orderID: row.orderID,
   orderDate: row.orderDate,
   requiredDate: row.requiredDate,
-  freight: row.freight,
+  freight: toFloat(row.freight),
   shipName: row.shipName
   }),
   (itsAddress:Address {
@@ -136,13 +137,22 @@ CREATE
     region: row.shipRegion,
     postalCode: row.shipPostalCode,
     country: row.shipCountry
-  }),
-  (order)-[:SHIPPED_TO {
-    shippedDate: row.shippedDate,
-    shipName: row.shipName
-  }]->(itsAddress)
+  })
 ;
 CREATE CONSTRAINT ON (o:Order) ASSERT o.orderID IS UNIQUE;
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row
+MATCH (order:Order { orderID: toString(row.orderID) })
+MATCH (itsAddress:Address {
+  address: row.shipAddress,
+  city: row.shipCity,
+  region: row.shipRegion,
+  postalCode: row.shipPostalCode,
+  country: row.shipCountry
+})
+MERGE (order)-[a:SHIPPED_TO]->(itsAddress)
+  ON CREATE SET a.shippedDate = row.shippedDate;
 
 USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM 'file:///orders.csv' AS row

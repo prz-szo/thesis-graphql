@@ -24,8 +24,7 @@ type Customer {
 }
 
 
-# TODO: Jak wyciągnąc shipName i shipDate z properties relacji?
-# TODO: Jak wyciągnąc unitPrice i quantity z relacji?
+# MATCH (a)-[r:SHIPPED_TO]->(b) RETURN { dataSzipowania: r.shippedDate }; :D
 type Order {
     orderID: ID!
     freight: Float
@@ -33,7 +32,8 @@ type Order {
     owner: Customer @relation(name: "PURCHASED", direction: "IN")
     elements: [Product] @relation(name: "CONTAINS", direction: "OUT")
     shipName: String
-    shippedDate: String
+    # TODO: poprawić ale generalnie to jest rozwiązanie
+    # shippedDate: String @cypher(statement: "MATCH (o:Order {o.orderID: this.orderID})-[r:SHIPPED_TO]->() RETURN DISTINCT r.shippedDate")
     orderDate: String
     requiredDate: String
     address: Address @relation(name: "SHIPPED_TO", direction: "OUT")
@@ -74,11 +74,3 @@ type Product {
     supplier: Supplier @relation(name: "SUPPLIES", direction: "IN")
     category: Category @relation(name: "PART_OF", direction: "OUT")
 }
-
-# An example of query inside the GraphQL schema
-#type Query {
-#    usersBySubstring(substring: String): [User]
-#    @cypher(
-#        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
-#    )
-#}
