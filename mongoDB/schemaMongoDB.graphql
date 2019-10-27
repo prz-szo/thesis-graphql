@@ -1,7 +1,8 @@
 scalar Date
 
-type Query{
+type Query {
     simpleQuery: String
+    exampleQueryOfType: SimpleQuery
 
     Employee(employeeID: ID): Employee
     Employees: [Employee]
@@ -23,6 +24,22 @@ type Query{
 
     Product(productID: ID): Product
     Products: [Product]
+}
+
+type SimpleQuery {
+    intField: Int
+    floatField: Float
+    stringField: String
+    stringButWithoutFunction: String
+    booleanField: Boolean
+    IDField: ID
+    enumType: EnumType
+}
+
+enum EnumType {
+    FIRST_TYPE
+    SECOND_TYPE
+    THIRD_TYPE
 }
 
 type Employee {

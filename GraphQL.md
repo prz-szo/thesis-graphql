@@ -172,3 +172,21 @@ Human: {
 }
 ```
 
+In fact, many GraphQL libraries will let you omit resolvers this simple and will just assume that if a resolver isn't provided for a field, that a property of the same name should be read and returned.
+
+### Scalar coercion
+
+```
+Human: {
+  appearsIn(obj) {
+    return obj.appearsIn // returns [ 4, 5, 6 ]
+  }
+}
+```
+
+This is an example of scalar coercion. The type system knows what to expect and will convert the values returned by a resolver function into something that upholds the API contract.
+In this case, there may be an Enum defined on our server which uses numbers like 4, 5, and 6 internally, but represents them as Enum values in the GraphQL type system.
+
+### List resolvers
+
+
