@@ -7,7 +7,7 @@ import mongoDBConnection from './db';
 
 import dotenv from 'dotenv';
 
-import { typeDefs as typeDefsMongoDB } from './mongoDBSchema';
+import { typeDefs } from './mongoDBSchema';
 
 import resolvers from './resolvers';
 
@@ -24,10 +24,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect with MongoDB
+
 mongoDBConnection().then(() => {
   const schemaForMongoDBCompliance = {
-    typeDefs: typeDefsMongoDB,
+    typeDefs,
     resolvers,
   };
 

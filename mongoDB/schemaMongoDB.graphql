@@ -1,92 +1,100 @@
-#type Customer {
-#    customerID: ID!
-#    contactName: String!
-#    contactTitle: String
-#    companyName: String
-#    fax: String
-#    phone: String
-#}
-#
-#type Address {
-#    addressID: ID!
-#    region: String
-#    country: String!
-#    city: String
-#    postalCode: String!
-#    address: String
-#}
 scalar Date
 
-type Query {
-    Employee(employeeID: ID): Employee,
+type Query{
+    simpleQuery: String
+
+    Employee(employeeID: ID): Employee
     Employees: [Employee]
+
+    Customer(customerID: ID): Customer
+    Customers: [Customer]
+
+    Order(orderID: ID): Order
+    Orders: [Order]
+
+    Supplier(supplierID: ID): Supplier
+    Suppliers: [Supplier]
+
+    Address(postalCode: String): Address
+    Addresses: [Address]
+
+    Category(categoryID: ID): Category
+    Categories: [Category]
+
+    Product(productID: ID): Product
+    Products: [Product]
 }
 
 type Employee {
     employeeID: ID!
     firstName: String!
     lastName: String!
-    birthDate: Date
-    hireDate: Date
+    birthDate: String
+    hireDate: String
     title: String!
     titleOfCourtesy: String
-    address: String
-    city: String
-    region: String
-    postalCode: String
-    country: String
-    homePhone: String
-    manager: Employee
     notes: String
-    photoPath: String
+    homePhone: String
+    manager: String
+    address: Address
 }
 
-#type Category {
-#    categoryID: ID!
-#    categoryName: String!
-#    description: String!
-#    picture: String
-#}
-#
-#type Order {
-#    orderID: ID!
-#    shipCity: String
-#    freight: Float
-#    employee: Employee
-#    owner: Customer
-#    shipName: String
-#    shippedDate: String
-#    orderDate: String
-#    requiredDate: String
-#    address: Address
-#}
-#type Business {
-#    id: ID!
-#    name: String
-#    address: String
-#    city: String
-#    state: String
-#    reviews: [Review] @relation(name: "REVIEWS", direction: "IN")
-#    categories: [Category] @relation(name: "IN_CATEGORY", direction: "OUT")
-#}
-#
-#type Review {
-#    id: ID!
-#    stars: Int
-#    text: String
-#    date: Date
-#    business: Business @relation(name: "REVIEWS", direction: "OUT")
-#    user: User @relation(name: "WROTE", direction: "IN")
-#}
-#
-#type Category {
-#    name: ID!
-#    businesses: [Business] @relation(name: "IN_CATEGORY", direction: "IN")
-#}
-#
-#type Query {
-#    usersBySubstring(substring: String): [User]
-#    @cypher(
-#        statement: "MATCH (u:User) WHERE u.name CONTAINS $substring RETURN u"
-#    )
-#}
+type Customer {
+    customerID: ID!
+    contactName: String!
+    contactTitle: String
+    companyName: String
+    fax: String
+    phone: String
+    address: Address
+    orders: [Order]
+}
+
+type Order {
+    orderID: ID!
+    freight: Float
+    employee: Employee
+    owner: Customer
+    elements: [Product]
+    shipName: String
+    shippedDate: String
+    orderDate: String
+    requiredDate: String
+    address: Address
+}
+
+type Supplier {
+    companyName: String!
+    supplierID: ID!
+    contactName: String!
+    contactTitle: String!
+    address: Address
+    fax: String
+    phone: String
+    homePage: String
+}
+
+type Address {
+    region: String
+    country: String!
+    city: String
+    postalCode: String
+    address: String
+}
+
+type Category {
+    categoryID: ID!
+    categoryName: String!
+    description: String!
+    products: [Product]
+}
+
+type Product {
+    productName: String!
+    productID: ID!
+    unitsInStock: Int!
+    unitPrice: Float!
+    quantityPerUnit: String
+    supplier: Supplier
+    category: Category
+}

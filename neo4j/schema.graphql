@@ -6,9 +6,9 @@ type Employee {
     hireDate: String
     title: String!
     titleOfCourtesy: String
-    manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
     notes: String
     homePhone: String
+    manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
     address: Address @relation(name: "LIVES_IN", direction: "OUT")
 }
 
