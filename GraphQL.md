@@ -187,6 +187,123 @@ Human: {
 This is an example of scalar coercion. The type system knows what to expect and will convert the values returned by a resolver function into something that upholds the API contract.
 In this case, there may be an Enum defined on our server which uses numbers like 4, 5, and 6 internally, but represents them as Enum values in the GraphQL type system.
 
-### List resolvers
+Introspection
+---------------
 
+If we don't know the what types are available, we can ask GraphQL, by querying the `__schema` field, always available on the root type of a Query.
 
+```
+{
+  __type(name: "Employee") {
+    name
+    fields {
+      name
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}
+```
+
+Best practices
+---------------
+
+#### Serving via HTTP
+ - Web Request Pipeline
+    GraphQL should be placed after all authentication middleware, so that you have access to the same session and user information you would in your HTTP endpoint handlers.
+ - URIs, Routes
+    Entities in GraphQL are not identified by URLs. Instead, a GraphQL server operates on a single URL/endpoint, usually /graphql, and all GraphQL requests for a given service should be directed at this endpoint.
+ - HTTP Methods, Headers, and Body
+    Your GraphQL HTTP server should handle the HTTP GET and POST methods.
+    - GET request
+        When receiving an HTTP GET request, the GraphQL query should be specified in the "query" query string.
+        
+        ```
+          {
+            me {
+              name
+            }
+          }
+      ```
+      `http://myapi/graphql?query={me{name}}`
+      
+      Query variables can be sent as a JSON-encoded string in an additional query parameter called `variables`. If the query contains several named operations, 
+      an `operationName` query parameter can be used to control which one should be executed.
+    - POST request
+        A standard GraphQL POST request should use the `application/json` content type, and include a JSON-encoded body of the following form:
+        ```
+        {
+          "query": "...",
+          "operationName": "...",
+          "variables": { "myVariable": "someValue", ... }
+        }
+        ```
+        `operationName` and `variables` are optional fields. `operationName` is only required if multiple operations are present in the query.
+
+        In addition to the above, we recommend supporting two additional cases:
+         - If the `"query"` query string parameter is present (as in the GET example above), it should be parsed and handled in the same way as the HTTP GET case.
+         - If the `"application/graphql"` Content-Type header is present, treat the HTTP POST body contents as the GraphQL query string.
+  - Response
+    Regardless of the method by which the query and variables were sent, the response should be returned in the body of the request in JSON format.
+    As mentioned in the spec, a query might result in some data and some errors, and those should be returned in a JSON object of the form:
+    ```
+    {
+      "data": { ... },
+      "errors": [ ... ]
+    }
+    ```
+    If there were no errors returned, the `"errors"` field should not be present on the response. 
+    If no data is returned, according to the GraphQL spec, the `"data"` field should only be included if the error occurred during execution.
+
+#### JSON (with GZIP)
+
+GraphQL services typically respond using `JSON`, however the GraphQL spec does not require it. 
+`JSON` may seem like an odd choice for an API layer promising better network performance, however because it is mostly text, it compresses exceptionally well with `GZIP`.
+
+It's encouraged that any production GraphQL services enable `GZIP` and encourage their clients to send the header: `Accept-Encoding: gzip`
+
+#### Pagination
+
+Typically fields that could return long lists accept arguments `"first"` and `"after"` to allow for specifying a specific region of a list, where `"after"` is a unique identifier of each of the values in the list.
+
+Ultimately designing APIs with feature-rich pagination led to a best practice pattern called `"Connections"`. Some client tools for GraphQL, 
+such as Relay, know about the Connections pattern and can automatically provide automatic support for client-side pagination when a GraphQL API employs this pattern.
+
+ - We could do something like `friends(first:2 offset:2)` to ask for the next two in the list.
+ - We could do something like `friends(first:2 after:$friendId)`, to ask for the next two after the last friend we fetched.
+ - We could do something like `friends(first:2 after:$friendCursor)`, where we get a cursor from the last item and use that to paginate.
+ 
+ ```
+{
+  hero {
+    name
+    friends(first:2) {
+      totalCount
+      edges {
+        node {
+          name
+        }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}
+```
+
+#### Caching
+
+One possible pattern for this is reserving a field, like `id`, to be a globally unique identifier.
+
+If the backend uses something like UUIDs for identifiers, then exposing this globally unique ID may be very straightforward! 
+
+If the backend doesn't have a globally unique ID for every object already, the GraphQL layer might have to construct this. Oftentimes, that's as simple as appending the name of the type to the ID and using that as the identifier; the server might then make that ID opaque by base64-encoding it.
