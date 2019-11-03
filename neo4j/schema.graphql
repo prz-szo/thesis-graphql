@@ -24,19 +24,29 @@ type Customer {
 }
 
 
-# MATCH (a)-[r:SHIPPED_TO]->(b) RETURN { dataSzipowania: r.shippedDate }; :D
 type Order {
     orderID: ID!
     freight: Float
     employee: Employee @relation(name: "SOLD", direction: "IN")
     owner: Customer @relation(name: "PURCHASED", direction: "IN")
-    elements: [Product] @relation(name: "CONTAINS", direction: "OUT")
+    elements: [Contains]
     shipName: String
-    # TODO: poprawić ale generalnie to jest rozwiązanie
-    # shippedDate: String @cypher(statement: "MATCH (o:Order {o.orderID: this.orderID})-[r:SHIPPED_TO]->() RETURN DISTINCT r.shippedDate")
     orderDate: String
     requiredDate: String
-    address: Address @relation(name: "SHIPPED_TO", direction: "OUT")
+    address: ShippedTo
+}
+
+type ShippedTo @relation(name: "SHIPPED_TO") {
+    from: Order
+    to: Address
+    shippedDate: String
+}
+
+type Contains @relation(name: "CONTAINS") {
+    from: Order
+    to: Product
+    unitPrice: Float
+    quantity: Float
 }
 
 type Supplier {
