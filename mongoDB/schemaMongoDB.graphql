@@ -46,7 +46,7 @@ type Query {
     Category(categoryID: ID): Category
     Categories: [Category]
 
-    #
+    # Done
     Product(productID: ID): Product
     Products: [Product]
 }

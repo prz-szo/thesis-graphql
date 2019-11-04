@@ -1,13 +1,11 @@
-import {
-  Category,
-  Product,
-  Supplier,
-} from '../models';
+import { Order } from '../models';
+import { Supplier } from '../models';
+import { Category } from '../models';
 
 
 export default {
-  Product: async (root, { productID }) => {
-    const { _id, ...restOfProperties } = await Product.findOne({ _id: productID }).lean().exec();
+  Order: async (root, { productID }) => {
+    const { _id, ...restOfProperties } = await Order.findOne({ _id: productID }).lean().exec();
     const supplierForProduct = await Supplier.findOne({ _id: restOfProperties.supplier.id }).lean().exec();
     const categoryForProduct = await Category.findOne({ _id: restOfProperties.category.id }).select('-picture').lean().exec();
 
@@ -24,8 +22,8 @@ export default {
       },
     });
   },
-  Products: async () => {
-    const products = await Product.find().lean().exec();
+  Orders: async () => {
+    const products = await Order.find().lean().exec();
     const suppliers = await Supplier.find().lean().exec();
     const categories = await Category.find().select('-picture').lean().exec();
 

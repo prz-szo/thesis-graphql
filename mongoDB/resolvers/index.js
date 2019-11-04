@@ -1,9 +1,10 @@
 import { GraphQLID, GraphQLEnumType } from 'graphql';
 
-import { default as CategoryResolver } from './Category';
-import { default as EmployeeResolver } from './Employee';
-import { default as ProductResolver } from './Product';
-import { default as SupplierResolver } from './Supplier';
+import CategoryResolver from './Category';
+import EmployeeResolver from './Employee';
+import OrderResolver from './Order';
+import ProductResolver from './Product';
+import SupplierResolver from './Supplier';
 
 const EnumType = new GraphQLEnumType({
   name: 'EnumType',
@@ -28,6 +29,7 @@ export default {
     }),
     ...CategoryResolver,
     ...EmployeeResolver,
+    ...OrderResolver,
     ...ProductResolver,
     ...SupplierResolver,
   },

@@ -9,7 +9,14 @@ export default {
     return _id && ({
       ...restOfProperties,
       employeeID: _id,
-      manager: { ...manager, employeeID: restOfProperties.reportsTo.id }
+      manager: { ...manager, employeeID: restOfProperties.reportsTo.id },
+      address: {
+        address: restOfProperties.address,
+        city: restOfProperties.city,
+        region: restOfProperties.region,
+        postalCode: restOfProperties.postalCode,
+        country: restOfProperties.country,
+      },
     });
   },
   Employees: async () => {
@@ -23,7 +30,14 @@ export default {
         employeeID: _id,
         manager: manager
           ? { ...manager, employeeID: manager._id }
-          : null
+          : null,
+        address: {
+          address: restOfProperties.address,
+          city: restOfProperties.city,
+          region: restOfProperties.region,
+          postalCode: restOfProperties.postalCode,
+          country: restOfProperties.country,
+        },
       };
     });
   }
