@@ -1,6 +1,9 @@
-import { default as EmployeeResolver } from './Employee';
-import { default as CategoryResolver } from './Category';
 import { GraphQLID, GraphQLEnumType } from 'graphql';
+
+import { default as CategoryResolver } from './Category';
+import { default as EmployeeResolver } from './Employee';
+import { default as ProductResolver } from './Product';
+import { default as SupplierResolver } from './Supplier';
 
 const EnumType = new GraphQLEnumType({
   name: 'EnumType',
@@ -23,8 +26,14 @@ export default {
       IDField: () => GraphQLID.parseValue(123),
       enumType: () => EnumType.getValue('SECOND_TYPE').name
     }),
-    ...EmployeeResolver,
     ...CategoryResolver,
+    ...EmployeeResolver,
+    ...ProductResolver,
+    ...SupplierResolver,
+  },
+  Mutation: {
+    doNothing: (root, { message }) => `I'm a kind of echo :D - ${message}`,
+    doNothingButWithInputType: (root, { messageType }) => `New ${messageType.stringField} | ${!messageType.booleanField}`
   }
 };
 

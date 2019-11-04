@@ -1,29 +1,59 @@
 scalar Date
 
+# TODO: 0. RESOLVERY dokończyć
+# TODO: 1. Bardziej skomplikowane Query, na przykład składające się z więcej niż jednego Typu
+# TODO: 2. Mutacje, input types
+# TODO: 3. Aliasy
+# TODO: 4. Fragmenty
+# TODO: 5. Interfejsy
+# TODO: 6. Union Types
+# TODO: 7. Klauzule @include, @skip
+# TODO: 8. Variables(nie to samo co argumenty dla pola)
+# TODO: 9. Argumenty, dla jednego, dla wielu pól
+# TODO: 10. Paginacja, (first, offset), (first, elementId), (first, coursor)
+# TODO: 11. Przykład użycia z autoryzacją,
+#           https://graphql.org/graphql-js/authentication-and-express-middleware/
+#           https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
+
+# TODO: 12. Możliwości schemy: https://grandstack.io/docs/graphql-schema-generation-augmentation.html
+# TODO: 13. Filtrowanie
+# TODO: 14. @isAuthenticated, @hasRole, @hasScope - https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
+
+# TODO: 15. GraphQL bezpośrednio w bazie https://grandstack.io/docs/neo4j-graphql-database-plugin.html
+# TODO: 16. (root, arguments, context, info) - jako parametry każdego resolver'a
+# TODO: 17. Jak testować API oparte na GraphQL?
+
 type Query {
     simpleQuery: String
     exampleQueryOfType: SimpleQuery
 
+    # Done
     Employee(employeeID: ID): Employee
     Employees: [Employee]
 
     Customer(customerID: ID): Customer
     Customers: [Customer]
 
+    #
     Order(orderID: ID): Order
     Orders: [Order]
 
+    # Done
     Supplier(supplierID: ID): Supplier
     Suppliers: [Supplier]
 
-    Address(postalCode: String): Address
-    Addresses: [Address]
-
+    # Done
     Category(categoryID: ID): Category
     Categories: [Category]
 
+    #
     Product(productID: ID): Product
     Products: [Product]
+}
+
+type Mutation {
+    doNothing(message: String): String
+    doNothingButWithInputType(messageType: MessageType): String
 }
 
 type SimpleQuery {
@@ -36,6 +66,11 @@ type SimpleQuery {
     enumType: EnumType
 }
 
+input MessageType {
+    stringField: String
+    booleanFlag: Boolean
+}
+
 enum EnumType {
     FIRST_TYPE
     SECOND_TYPE
@@ -46,13 +81,13 @@ type Employee {
     employeeID: ID!
     firstName: String!
     lastName: String!
-    birthDate: String
-    hireDate: String
+    birthDate: Date
+    hireDate: Date
     title: String!
     titleOfCourtesy: String
     notes: String
     homePhone: String
-    manager: String
+    manager: Employee
     address: Address
 }
 
@@ -74,15 +109,15 @@ type Order {
     owner: Customer
     elements: [Product]
     shipName: String
-    shippedDate: String
-    orderDate: String
-    requiredDate: String
+    shippedDate: Date
+    orderDate: Date
+    requiredDate: Date
     address: Address
 }
 
 type Supplier {
-    companyName: String!
     supplierID: ID!
+    companyName: String!
     contactName: String!
     contactTitle: String!
     address: Address
@@ -107,8 +142,8 @@ type Category {
 }
 
 type Product {
-    productName: String!
     productID: ID!
+    productName: String!
     unitsInStock: Int!
     unitPrice: Float!
     quantityPerUnit: String
