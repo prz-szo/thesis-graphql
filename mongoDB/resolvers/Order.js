@@ -1,6 +1,5 @@
 import {
   Customer,
-  Employee,
   Order,
 } from '../models';
 import ProductResolver from './Product';
