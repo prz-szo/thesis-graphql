@@ -1,6 +1,5 @@
 scalar Date
 
-# TODO: 0. RESOLVERY dokończyć
 # TODO: 1. Bardziej skomplikowane Query, na przykład składające się z więcej niż jednego Typu
 # TODO: 2. Mutacje, input types
 # TODO: 3. Aliasy
@@ -30,10 +29,11 @@ type Query {
     Employee(employeeID: ID): Employee
     Employees: [Employee]
 
-    #
     Customer(customerID: ID): Customer
     Customers: [Customer]
+
     Order(orderID: ID): Order
+    Orders: [Order]
 
     Supplier(supplierID: ID): Supplier
     Suppliers: [Supplier]
