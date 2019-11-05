@@ -1,6 +1,7 @@
 import { GraphQLID, GraphQLEnumType } from 'graphql';
 
 import CategoryResolver from './Category';
+import CustomerResolver from './Customer';
 import EmployeeResolver from './Employee';
 import OrderResolver from './Order';
 import ProductResolver from './Product';
@@ -25,9 +26,10 @@ export default {
       stringField: () => 'Meaning of life',
       booleanField: () => new Promise((resolve) => setTimeout(() => resolve(true), 300)),
       IDField: () => GraphQLID.parseValue(123),
-      enumType: () => EnumType.getValue('SECOND_TYPE').name
+      enumType: () => EnumType.getValue().name // || just 'SECOND_TYPE'
     }),
     ...CategoryResolver,
+    ...CustomerResolver,
     ...EmployeeResolver,
     ...OrderResolver,
     ...ProductResolver,

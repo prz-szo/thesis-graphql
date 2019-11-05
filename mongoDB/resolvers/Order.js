@@ -1,48 +1,40 @@
-import { Order } from '../models';
-import { Supplier } from '../models';
-import { Category } from '../models';
-
+import {
+  Customer,
+  Employee,
+  Order,
+} from '../models';
+import ProductResolver from './Product';
+import EmployeeResolver from './Employee';
 
 export default {
-  Order: async (root, { productID }) => {
-    const { _id, ...restOfProperties } = await Order.findOne({ _id: productID }).lean().exec();
-    const supplierForProduct = await Supplier.findOne({ _id: restOfProperties.supplier.id }).lean().exec();
-    const categoryForProduct = await Category.findOne({ _id: restOfProperties.category.id }).select('-picture').lean().exec();
+  Order: async (root, { orderID }) => {
+    const { _id, ...rest } = await Order.findOne({ _id: orderID }).lean().exec();
+    const employeeForOrder = await EmployeeResolver.Employee(root, { employeeID: rest.employee.id });
+    const ownerForOrder = await Customer.findOne({ _id: rest.customer.id }).lean().exec();
+
+    const orderElements = rest.details.map(el => ({ id: el.product.id, quantity: el.quantity, unitPrice: el.unitPrice }));
+    const elementsForProvidedIds = await Promise.all(orderElements.map(el => ProductResolver.Product(root, { productID: el.id })));
 
     return _id && ({
-      ...restOfProperties,
-      productID: _id,
-      category: {
-        ...categoryForProduct,
-        categoryID: categoryForProduct._id,
+      ...rest,
+      orderID: _id,
+      employee: employeeForOrder,
+      owner: {
+        ...ownerForOrder,
+        customerID: ownerForOrder._id
       },
-      supplier: {
-        ...supplierForProduct,
-        supplierID: supplierForProduct._id,
+      elements: elementsForProvidedIds.map((product, index) => ({
+        ...product,
+        quantity: orderElements[index].quantity,
+        unitPrice: orderElements[index].unitPrice,
+      })),
+      address: {
+        address: rest.shipAddress,
+        city: rest.shipCity,
+        region: rest.shipRegion,
+        postalCode: rest.shipPostalCode,
+        country: rest.shipCountry,
       },
-    });
-  },
-  Orders: async () => {
-    const products = await Order.find().lean().exec();
-    const suppliers = await Supplier.find().lean().exec();
-    const categories = await Category.find().select('-picture').lean().exec();
-
-    return products.map(({ _id, ...restOfProperties }) => {
-      const supplierForProduct = suppliers.find(({ _id }) => _id === restOfProperties.supplier.id);
-      const categoryForProduct = categories.find(({ _id }) => _id === restOfProperties.category.id);
-
-      return {
-      ...restOfProperties,
-        productID: _id,
-        category: {
-          ...categoryForProduct,
-          categoryID: categoryForProduct._id,
-        },
-        supplier: {
-          ...supplierForProduct,
-          supplierID: supplierForProduct._id,
-        },
-      };
     });
   }
 };

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const customerSchema = Schema({
-  _id: Number,
+  _id: String,
   companyName: String,
   contactName: String,
   contactTitle: String,

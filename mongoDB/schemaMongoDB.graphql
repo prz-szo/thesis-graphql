@@ -13,7 +13,7 @@ scalar Date
 # TODO: 10. Paginacja, (first, offset), (first, elementId), (first, coursor)
 # TODO: 11. Przykład użycia z autoryzacją,
 #           https://graphql.org/graphql-js/authentication-and-express-middleware/
-#           https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
+#           https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html[
 
 # TODO: 12. Możliwości schemy: https://grandstack.io/docs/graphql-schema-generation-augmentation.html
 # TODO: 13. Filtrowanie
@@ -27,26 +27,20 @@ type Query {
     simpleQuery: String
     exampleQueryOfType: SimpleQuery
 
-    # Done
     Employee(employeeID: ID): Employee
     Employees: [Employee]
 
+    #
     Customer(customerID: ID): Customer
     Customers: [Customer]
-
-    #
     Order(orderID: ID): Order
-    Orders: [Order]
 
-    # Done
     Supplier(supplierID: ID): Supplier
     Suppliers: [Supplier]
 
-    # Done
     Category(categoryID: ID): Category
     Categories: [Category]
 
-    # Done
     Product(productID: ID): Product
     Products: [Product]
 }
@@ -92,7 +86,7 @@ type Employee {
 }
 
 type Customer {
-    customerID: ID!
+    customerID: String!
     contactName: String!
     contactTitle: String
     companyName: String
@@ -147,6 +141,7 @@ type Product {
     unitsInStock: Int!
     unitPrice: Float!
     quantityPerUnit: String
+    quantity: Float
     supplier: Supplier
     category: Category
 }
