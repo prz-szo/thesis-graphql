@@ -9,6 +9,25 @@ scalar Date
 # TODO: 6. Union Types
 # TODO: 7. Klauzule @include, @skip
 # TODO: 8. Variables(nie to samo co argumenty dla pola)
+# var dice = 3;
+#var sides = 6;
+#var query = `query RollDice($dice: Int!, $sides: Int) {
+#  rollDice(numDice: $dice, numSides: $sides)
+#}`;
+#
+#fetch('/graphql', {
+#  method: 'POST',
+#  headers: {
+#    'Content-Type': 'application/json',
+#    'Accept': 'application/json',
+#  },
+#  body: JSON.stringify({
+#    query,
+#    variables: { dice, sides },
+#  })
+#})
+#  .then(r => r.json())
+#  .then(data => console.log('data returned:', data));
 # TODO: 9. Argumenty, dla jednego, dla wielu pól
 # TODO: 10. Paginacja, (first, offset), (first, elementId), (first, coursor)
 # TODO: 11. Przykład użycia z autoryzacją,
@@ -22,6 +41,8 @@ scalar Date
 # TODO: 15. GraphQL bezpośrednio w bazie https://grandstack.io/docs/neo4j-graphql-database-plugin.html
 # TODO: 16. (root, arguments, context, info) - jako parametry każdego resolver'a
 # TODO: 17. Jak testować API oparte na GraphQL?
+
+# TODO: 18. Subskrypcje, oparte na web-socket
 
 type Query {
     simpleQuery: String
@@ -49,6 +70,8 @@ type Query {
 type Mutation {
     doNothing(message: String): String
     doNothingButWithInputType(messageType: MessageType): String
+
+
 }
 
 type SimpleQuery {
