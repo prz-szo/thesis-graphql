@@ -44,6 +44,8 @@ scalar Date
 
 # TODO: 18. Subskrypcje, oparte na web-socket
 
+
+
 type Query {
     simpleQuery: String
     exampleQueryOfType: SimpleQuery
