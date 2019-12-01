@@ -7,7 +7,7 @@
       "interpreter": "node",
       "script": "./mongoDB/build/app.js",
       "env": {
-        "MONGO_URI": "mongodb://localhost:27017/Northwind",
+        "MONGO_URI": "mongodb://thesis:thesisAgh@165.22.76.15:27017/Northwind",
         "MONGO_USER": "thesis",
         "MONGO_PASSWORD": "thesisAgh",
         "GRAPHQL_SCHEMA": "./schemaMongoDB.graphql",
