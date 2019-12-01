@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "api-mongo",
+      "exec_mode": "cluster",
+      "instances": "2",
+      "interpreter": "node",
+      "script": "./mongoDB/build/app.js",
+      "env": {
+        "MONGO_URI": "mongodb://localhost:27017/Northwind",
+        "MONGO_USER": "thesis",
+        "MONGO_PASSWORD": "thesisAgh",
+        "GRAPHQL_SCHEMA": "./schemaMongoDB.graphql",
+        "API_HOST": "localhost",
+        "GRAPHQL_MONGO_LISTEN_PATH": "/graphql",
+        "GRAPHQL_MONGO_LISTEN_PORT": 8080
+      }
+    }
+  ]
+}
