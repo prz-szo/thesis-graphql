@@ -11,7 +11,7 @@
         "MONGO_USER": "thesis",
         "MONGO_PASSWORD": "thesisAgh",
         "GRAPHQL_SCHEMA": "./schemaMongoDB.graphql",
-        "API_HOST": "localhost",
+        "API_HOST": "68.183.208.131",
         "GRAPHQL_MONGO_LISTEN_PATH": "/graphql",
         "GRAPHQL_MONGO_LISTEN_PORT": 2803
       }
