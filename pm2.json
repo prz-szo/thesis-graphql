@@ -2,16 +2,11 @@
   "apps": [
     {
       "name": "api-mongo",
-      "exec_mode": "cluster",
-      "instances": "1",
-      "interpreter": "node",
       "script": "./mongoDB/build/app.js",
       "env": {
         "MONGO_URI": "mongodb://thesis:thesisAgh@165.22.76.15:27017/Northwind",
-        "MONGO_USER": "thesis",
-        "MONGO_PASSWORD": "thesisAgh",
         "GRAPHQL_SCHEMA": "./schemaMongoDB.graphql",
-        "API_HOST": "68.183.208.131",
+        "API_HOST": "0.0.0.0",
         "GRAPHQL_MONGO_LISTEN_PATH": "/graphql",
         "GRAPHQL_MONGO_LISTEN_PORT": 2803
       }
