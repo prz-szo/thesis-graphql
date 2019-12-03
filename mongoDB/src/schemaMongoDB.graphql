@@ -72,8 +72,6 @@ type Query {
 type Mutation {
     doNothing(message: String): String
     doNothingButWithInputType(messageType: MessageType): String
-
-
 }
 
 type SimpleQuery {
