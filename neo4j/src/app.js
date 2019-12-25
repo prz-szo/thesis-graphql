@@ -9,7 +9,7 @@ import { makeAugmentedSchema } from 'neo4j-graphql-js';
 import { typeDefs as typeDefsNeo4j } from './graphqlNeo4jSchema';
 
 
-dotenv.config();
+// dotenv.config();
 const {
   NEO4J_URI,
   NEO4J_USER,

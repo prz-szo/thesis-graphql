@@ -26,7 +26,7 @@ export default {
       stringField: () => 'Meaning of life',
       booleanField: () => new Promise((resolve) => setTimeout(() => resolve(true), 300)),
       IDField: () => GraphQLID.parseValue(123),
-      enumType: () => EnumType.getValue().name // || just 'SECOND_TYPE'
+      enumType: () => EnumType.getValue('SECOND_TYPE').name // || just 'SECOND_TYPE'
     }),
     ...CategoryResolver,
     ...CustomerResolver,
@@ -37,7 +37,7 @@ export default {
   },
   Mutation: {
     doNothing: (root, { message }) => `I'm a kind of echo :D - ${message}`,
-    doNothingButWithInputType: (root, { messageType }) => `New ${messageType.stringField} | ${!messageType.booleanField}`
+    doNothingButWithInputType: (root, { messageType }) => `New ${messageType.stringField} | ${messageType.booleanFlag}`
   }
 };
 

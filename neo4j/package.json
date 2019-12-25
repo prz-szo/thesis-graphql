@@ -2,10 +2,13 @@
   "name": "thesis-graphql",
   "version": "0.1.0",
   "description": "The Web API using Graph QL and Neo4j database, created in terms of my undergraduate dissertation.",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/.bin/nodemon --exec babel-node app.js"
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build ./src --copy-files",
+    "build": "npm run clean && npm run build-server",
+    "start": "./node_modules/.bin/nodemon --exec babel-node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +26,6 @@
   },
   "homepage": "https://github.com/prz-szo/thesis-graphql#readme",
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
     "apollo-server-express": "^2.9.1",
     "body-parser": "^1.19.0",
     "core-js": "^3.2.1",

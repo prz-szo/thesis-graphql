@@ -33,7 +33,7 @@ type Order {
     shipName: String
     orderDate: String
     requiredDate: String
-    address: ShippedTo
+    shipping: ShippedTo
 }
 
 type ShippedTo @relation(name: "SHIPPED_TO") {
