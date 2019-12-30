@@ -1,15 +1,12 @@
 scalar Date
 
-# TODO: 1. Klauzule @include, @skip
-
-# TODO: 4. Paginacja, (first, offset), (first, elementId), (first, coursor)
-# TODO: 5. (root, arguments, context, info) - jako parametry każdego resolver'a
-# TODO: 6. Jak testować API oparte na GraphQL?
+# TODO: 1. Paginacja, (first, offset), (first, elementId), (first, coursor)
+# TODO: 2. (root, arguments, context, info) - jako parametry każdego resolver'a
+# TODO: 3. Jak testować API oparte na GraphQL?
 
 
 # Rozdział 5
 # TODO: 1. Możliwości schemy: https://grandstack.io/docs/graphql-schema-generation-augmentation.html
-# TODO: 2. GraphQL bezpośrednio w bazie https://grandstack.io/docs/neo4j-graphql-database-plugin.html
 # TODO: 3. Filtrowanie, zarówno po stronie Neo4j jak i MongoDB
 # TODO: 4. @isAuthenticated, @hasRole, @hasScope - https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
 # TODO: 5. Przykład użycia z autoryzacją,
