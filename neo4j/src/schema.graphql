@@ -11,6 +11,7 @@ type Employee {
     manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
     underlings: [Employee] @relation(name: "REPORTS_TO", direction: "IN")
     address: Address @relation(name: "LIVES_IN", direction: "OUT")
+    sellings: [Order] @relation(name: "SOLD", direction: "OUT")
 }
 
 type Customer {
