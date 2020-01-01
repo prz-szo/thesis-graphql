@@ -9,7 +9,7 @@ import { makeAugmentedSchema } from 'neo4j-graphql-js';
 import { typeDefs as typeDefsNeo4j } from './graphqlNeo4jSchema';
 
 
-// dotenv.config();
+console.log(dotenv.config());
 const {
   NEO4J_URI,
   NEO4J_USER,
@@ -20,7 +20,6 @@ const {
 
   API_HOST
 } = process.env;
-
 
 const app = express();
 app.use(bodyParser.json());

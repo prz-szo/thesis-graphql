@@ -11,7 +11,7 @@ type Employee {
     manager: Employee @relation(name: "REPORTS_TO", direction: "OUT")
     underlings: [Employee] @relation(name: "REPORTS_TO", direction: "IN")
     address: Address @relation(name: "LIVES_IN", direction: "OUT")
-    sellings(dateFrom: String, dateTo: String): [Order] @relation(name: "SOLD", direction: "OUT")
+    sellings(dateFrom: Date, dateTo: Date): [Order] @relation(name: "SOLD", direction: "OUT")
 }
 
 type Customer {
@@ -33,7 +33,7 @@ type Order {
     owner: Customer @relation(name: "PURCHASED", direction: "IN")
     elements: [Contains]
     shipName: String
-    orderDate: String
+    orderDate: Date
     requiredDate: String
     shipping: ShippedTo
 }

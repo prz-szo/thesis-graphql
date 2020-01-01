@@ -1,17 +1,5 @@
 scalar Date
 
-# TODO: 1. Paginacja, (first, offset), (first, elementId), (first, coursor)
-# TODO: 2. (root, arguments, context, info) - jako parametry każdego resolver'a
-# TODO: 3. Jak testować API oparte na GraphQL?
-
-
-# Rozdział 5
-# TODO: 1. Możliwości schemy: https://grandstack.io/docs/graphql-schema-generation-augmentation.html
-# TODO: 3. Filtrowanie, zarówno po stronie Neo4j jak i MongoDB
-# TODO: 4. @isAuthenticated, @hasRole, @hasScope - https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
-# TODO: 5. Przykład użycia z autoryzacją,
-#           https://graphql.org/graphql-js/authentication-and-express-middleware/
-#           https://grandstack.io/docs/neo4j-graphql-js-middleware-authorization.html
 
 type Query {
     simpleQuery: String
@@ -37,11 +25,49 @@ type Query {
     Products: [Product]
 }
 
-union SearchResult = Employee | Customer | Supplier
-
 type Mutation {
     doNothing(message: String): String
     doNothingButWithInputType(messageType: MessageType): String
+    CreateNewOrder(order: OrderInput!): Order
+    CreateCustomerWithFirstOrder(customer: CustomerInput!): Order
+}
+
+union SearchResult = Employee | Customer | Supplier
+
+input CustomerInput {
+    contactName: String!
+    contactTitle: String!
+    companyName: String!
+    fax: String!
+    phone: String!
+    address: AddressInput!
+    initialOrder: OrderInput
+}
+
+input OrderInput {
+    orderID: ID!
+    freight: Float!
+    employeeID: ID!
+    ownerID: ID!
+    elements: [ProductInput!]!
+    shipName: String!
+    shippedDate: String!
+    orderDate: String!
+    requiredDate: String!
+    address: AddressInput!
+}
+
+input ProductInput {
+    productID: ID!
+    quantity: Float
+}
+
+input AddressInput {
+    region: String
+    country: String!
+    city: String!
+    postalCode: String!
+    address: String!
 }
 
 type SimpleQuery {
@@ -57,7 +83,7 @@ type SimpleQuery {
 input MessageType {
     stringField: String
     booleanFlag: Boolean
-    booleanLis: [Boolean]
+    booleanList: [Boolean]
 }
 
 enum EnumType {
@@ -78,6 +104,7 @@ type Employee {
     homePhone: String
     manager: Employee
     address: Address
+    sellings(dateFrom: String, dateTo: String): [Order]!
 }
 
 type Customer {
@@ -118,9 +145,9 @@ type Supplier {
 type Address {
     region: String
     country: String!
-    city: String
-    postalCode: String
-    address: String
+    city: String!
+    postalCode: String!
+    address: String!
 }
 
 type Category {

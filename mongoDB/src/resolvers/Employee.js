@@ -1,5 +1,21 @@
-import { Employee } from '../models';
+import { Employee, Order } from '../models';
+import OrderResolver from './Order';
 
+
+function getSellingsForEmployee(employee) {
+  return async ({ dateFrom, dateTo }) => {
+    const ordersForEmployee = await Order
+      .find({
+        employee,
+        orderDate: { $gte: dateFrom, $lte: dateTo }
+      })
+      .select('_id')
+      .lean()
+      .exec();
+
+    return await Promise.all(ordersForEmployee.map(orderID => OrderResolver.Order(null, { orderID })));
+  };
+}
 
 export default {
   Employee: async (root, { employeeID }) => {
@@ -10,6 +26,7 @@ export default {
       ...restOfProperties,
       employeeID: _id,
       manager: { ...manager, employeeID: restOfProperties.reportsTo.id },
+      sellings: getSellingsForEmployee({ id: _id, displayName: `${restOfProperties.firstName} ${restOfProperties.lastName}` }),
       address: {
         address: restOfProperties.address,
         city: restOfProperties.city,

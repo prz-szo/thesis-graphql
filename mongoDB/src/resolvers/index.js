@@ -38,7 +38,6 @@ export default {
   Mutation: {
     doNothing: (root, { message }) => `I'm a kind of echo :D - ${message}`,
     doNothingButWithInputType: (root, { messageType }) => {
-      console.log(messageType);
       return `New ${messageType.stringField} | ${messageType.booleanFlag}`
     }
   }
