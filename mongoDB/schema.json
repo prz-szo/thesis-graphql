@@ -1,0 +1,520 @@
+{
+	"products": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"productName": {
+			"type": "string",
+			"required": true
+		},
+		"supplier": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"category": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"quantityPerUnit": {
+			"type": "string",
+			"required": true
+		},
+		"unitPrice": {
+			"type": "number",
+			"required": true
+		},
+		"unitsInStock": {
+			"type": "number",
+			"required": true
+		},
+		"unitsOnOrder": {
+			"type": "number",
+			"required": true
+		},
+		"reorderLevel": {
+			"type": "number",
+			"required": true
+		},
+		"discontinued": {
+			"type": "boolean",
+			"required": true
+		}
+	},
+	"categories": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"categoryName": {
+			"type": "string",
+			"required": true
+		},
+		"description": {
+			"type": "string",
+			"required": true
+		},
+		"picture": {
+			"type": "Object",
+			"structure": {
+				"_bsontype": {
+					"type": "string",
+					"required": true
+				},
+				"sub_type": {
+					"type": "number",
+					"required": true
+				},
+				"position": {
+					"type": "number",
+					"required": true
+				},
+				"buffer": {
+					"type": "Uint8Array",
+					"required": true
+				},
+				"put": {
+					"type": "function",
+					"required": true
+				},
+				"write": {
+					"type": "function",
+					"required": true
+				},
+				"read": {
+					"type": "function",
+					"required": true
+				},
+				"value": {
+					"type": "function",
+					"required": true
+				},
+				"length": {
+					"type": "function",
+					"required": true
+				},
+				"toJSON": {
+					"type": "function",
+					"required": true
+				}
+			},
+			"required": true
+		}
+	},
+	"suppliers": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"companyName": {
+			"type": "string",
+			"required": true
+		},
+		"contactName": {
+			"type": "string",
+			"required": true
+		},
+		"contactTitle": {
+			"type": "string",
+			"required": true
+		},
+		"address": {
+			"type": "string",
+			"required": true
+		},
+		"city": {
+			"type": "string",
+			"required": true
+		},
+		"region": {
+			"type": "undefined",
+			"required": false
+		},
+		"postalCode": {
+			"type": "string",
+			"required": true
+		},
+		"country": {
+			"type": "string",
+			"required": true
+		},
+		"phone": {
+			"type": "string",
+			"required": true
+		},
+		"fax": {
+			"type": "undefined",
+			"required": false
+		}
+	},
+	"orders": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"customer": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "string",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"employee": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"orderDate": {
+			"type": "Date",
+			"required": true
+		},
+		"requiredDate": {
+			"type": "Date",
+			"required": true
+		},
+		"shippedDate": {
+			"type": "Date",
+			"required": true
+		},
+		"shipVia": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"freight": {
+			"type": "number",
+			"required": true
+		},
+		"shipName": {
+			"type": "string",
+			"required": true
+		},
+		"shipAddress": {
+			"type": "string",
+			"required": true
+		},
+		"shipCity": {
+			"type": "string",
+			"required": true
+		},
+		"shipRegion": {
+			"type": "undefined",
+			"required": false
+		},
+		"shipPostalCode": {
+			"type": "string",
+			"required": false
+		},
+		"shipCountry": {
+			"type": "string",
+			"required": true
+		},
+		"details": {
+			"type": "Array",
+			"required": true
+		}
+	},
+	"userstore": {
+		"_id": {
+			"type": "string",
+			"required": true
+		},
+		"userName": {
+			"type": "string",
+			"required": true
+		},
+		"email": {
+			"type": "string",
+			"required": true
+		},
+		"emailConfirmed": {
+			"type": "boolean",
+			"required": true
+		},
+		"passwordHash": {
+			"type": "string",
+			"required": true
+		},
+		"securityStamp": {
+			"type": "string",
+			"required": true
+		},
+		"claims": {
+			"type": "Array",
+			"required": true
+		}
+	},
+	"customers": {
+		"_id": {
+			"type": "string",
+			"required": true
+		},
+		"companyName": {
+			"type": "string",
+			"required": true
+		},
+		"contactName": {
+			"type": "string",
+			"required": true
+		},
+		"contactTitle": {
+			"type": "string",
+			"required": true
+		},
+		"address": {
+			"type": "string",
+			"required": true
+		},
+		"city": {
+			"type": "string",
+			"required": true
+		},
+		"region": {
+			"type": "undefined",
+			"required": false
+		},
+		"postalCode": {
+			"type": "string",
+			"required": false
+		},
+		"country": {
+			"type": "string",
+			"required": true
+		},
+		"phone": {
+			"type": "string",
+			"required": true
+		},
+		"fax": {
+			"type": "string",
+			"required": false
+		},
+		"__v": {
+			"type": "number",
+			"required": true
+		}
+	},
+	"shippers": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"companyName": {
+			"type": "string",
+			"required": true
+		},
+		"phone": {
+			"type": "string",
+			"required": true
+		}
+	},
+	"territories": {
+		"_id": {
+			"type": "string",
+			"required": true
+		},
+		"territoryDescription": {
+			"type": "string",
+			"required": true
+		},
+		"region": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		}
+	},
+	"regions": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"regionDescription": {
+			"type": "string",
+			"required": true
+		}
+	},
+	"employees": {
+		"_id": {
+			"type": "number",
+			"required": true
+		},
+		"lastName": {
+			"type": "string",
+			"required": true
+		},
+		"firstName": {
+			"type": "string",
+			"required": true
+		},
+		"title": {
+			"type": "string",
+			"required": true
+		},
+		"titleOfCourtesy": {
+			"type": "string",
+			"required": true
+		},
+		"birthDate": {
+			"type": "Date",
+			"required": true
+		},
+		"hireDate": {
+			"type": "Date",
+			"required": true
+		},
+		"address": {
+			"type": "string",
+			"required": true
+		},
+		"city": {
+			"type": "string",
+			"required": true
+		},
+		"region": {
+			"type": "string",
+			"required": false
+		},
+		"postalCode": {
+			"type": "string",
+			"required": true
+		},
+		"country": {
+			"type": "string",
+			"required": true
+		},
+		"homePhone": {
+			"type": "string",
+			"required": true
+		},
+		"extension": {
+			"type": "string",
+			"required": true
+		},
+		"photo": {
+			"type": "Object",
+			"structure": {
+				"_bsontype": {
+					"type": "string",
+					"required": true
+				},
+				"sub_type": {
+					"type": "number",
+					"required": true
+				},
+				"position": {
+					"type": "number",
+					"required": true
+				},
+				"buffer": {
+					"type": "Uint8Array",
+					"required": true
+				},
+				"put": {
+					"type": "function",
+					"required": true
+				},
+				"write": {
+					"type": "function",
+					"required": true
+				},
+				"read": {
+					"type": "function",
+					"required": true
+				},
+				"value": {
+					"type": "function",
+					"required": true
+				},
+				"length": {
+					"type": "function",
+					"required": true
+				},
+				"toJSON": {
+					"type": "function",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"notes": {
+			"type": "string",
+			"required": true
+		},
+		"reportsTo": {
+			"type": "Object",
+			"structure": {
+				"id": {
+					"type": "number",
+					"required": true
+				},
+				"displayName": {
+					"type": "string",
+					"required": true
+				}
+			},
+			"required": true
+		},
+		"photoPath": {
+			"type": "string",
+			"required": true
+		},
+		"territories": {
+			"type": "Array",
+			"required": true
+		}
+	}
+}

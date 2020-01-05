@@ -45,12 +45,10 @@ input CustomerInput {
 }
 
 input OrderInput {
-    orderID: ID!
     freight: Float!
     employeeID: ID!
-    ownerID: ID!
+    ownerID: ID
     elements: [ProductInput!]!
-    shipName: String!
     shippedDate: String!
     orderDate: String!
     requiredDate: String!
@@ -59,7 +57,7 @@ input OrderInput {
 
 input ProductInput {
     productID: ID!
-    quantity: Float
+    quantity: Float!
 }
 
 input AddressInput {

@@ -6,6 +6,10 @@ import EmployeeResolver from './Employee';
 import OrderResolver from './Order';
 import ProductResolver from './Product';
 import SupplierResolver from './Supplier';
+import {
+  CreateNewOrderMutation,
+  CreateCustomerWithFirstOrderMutation
+} from './Mutations';
 
 const EnumType = new GraphQLEnumType({
   name: 'EnumType',
@@ -39,7 +43,9 @@ export default {
     doNothing: (root, { message }) => `I'm a kind of echo :D - ${message}`,
     doNothingButWithInputType: (root, { messageType }) => {
       return `New ${messageType.stringField} | ${messageType.booleanFlag}`
-    }
+    },
+    CreateNewOrder: CreateNewOrderMutation,
+    CreateCustomerWithFirstOrder: CreateCustomerWithFirstOrderMutation
   }
 };
 

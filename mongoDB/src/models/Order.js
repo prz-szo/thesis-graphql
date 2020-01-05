@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const orderSchema = Schema({
   _id: Number,
   customer: {
-    id: Number,
+    id: String,
     displayName: String,
   },
   employee: {
