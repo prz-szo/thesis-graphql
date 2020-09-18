@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/prz-szo/thesis-graphql#readme",
   "dependencies": {
-    "apollo-server-express": "^2.9.1",
+    "apollo-server-express": "^2.14.2",
     "body-parser": "^1.19.0",
     "core-js": "^3.2.1",
     "cors": "^2.8.5",
